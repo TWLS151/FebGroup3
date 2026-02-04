@@ -221,3 +221,29 @@ for i in range(1,T+1):
 
     print(f'#{i} {answer}')
 ```
+
+```python
+
+for i in range(1,T+1):
+    LA,LB = map(int,input().split())
+    A = list(map(int,input().split()))
+    B = list(map(int,input().split()))
+    PA = 0
+    PB = 0
+    for a in range(LA):
+        for b in range(LB)
+    while PA<LA and PB<LB:
+        if A[PA] == B[PB]:
+            PB+=1
+        PA+=1
+
+
+
+    if pb==LB:
+        answer = 'YES'
+    else:
+        answer = "NO"
+
+
+    print(f'#{i} {answer}')
+```
