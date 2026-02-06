@@ -1,47 +1,24 @@
 # 1221 SWEA GNS
 # 요구사항 정리 -> "ZRO" 등 영어 숫자들의 정렬 진행하는 코드 작성
-# 아이디어 -> 하드코딩 ... 각 영어별로 뭉치고 순서를 부여한다. 합칠 떄 순서대로 합친다.
-
-numbers = ["ZRO", "ONE", "TWO", "THR", "FOR", "FIV", "SIX", "SVN", "EGT", "NIN"]
+# 기준이 되는 숫자 순서
+order = ["ZRO", "ONE", "TWO", "THR", "FOR", "FIV", "SIX", "SVN", "EGT", "NIN"]
 
 T = int(input())
 
-for test in range(T):
-    ZRO = []
-    ONE = []
-    TWO = []
-    THR = []
-    FOR = []
-    FIV = []
-    SIX = []
-    SVN = []
-    EGT = []
-    NIN = []
+for _ in range(T):
     case_num, case_len = input().split()
-    eng_num = list(map(str, input().split()))
+    eng_num_list = input().split()
 
-    for eng in eng_num:
-        if eng == "ZRO":
-            ZRO.append(eng)
-        elif eng == "ONE":
-            ONE.append(eng)
-        elif eng == "TWO":
-            TWO.append(eng)
-        elif eng == "THR":
-            THR.append(eng)
-        elif eng == "FOR":
-            FOR.append(eng)
-        elif eng == "FIV":
-            FIV.append(eng)
-        elif eng == "SIX":
-            SIX.append(eng)
-        elif eng == "SVN":
-            SVN.append(eng)
-        elif eng == "EGT":
-            EGT.append(eng)
-        elif eng == "NIN":
-            NIN.append(eng)
+    # 각 단어가 몇 번 나왔는지 저장할 공간(딕셔너리) 만들기
+    counts = {word: 0 for word in order}
 
-    output = ZRO + ONE + TWO + THR + FOR + FIV + SIX + SVN + EGT + NIN
-    print(f'{case_num}')
-    print(*output)
+    # 입력받은 리스트를 돌며 개수 세기
+    for eng in eng_num_list:
+        counts[eng] += 1
+
+    # 결과 출력하기
+    print(case_num)
+    for word in order:
+        # 해당 단어를 개수만큼 반복해서 출력
+        print((word + " ") * counts[word], end="")
+    print() # 줄바꿈
