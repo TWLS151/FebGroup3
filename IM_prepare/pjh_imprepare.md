@@ -264,3 +264,215 @@ for tc in range(1, T+1):
     ans = tower_maker(W1, W2, k)
     print(f'#{tc} {ans}')
 ```
+
+## 러시아 국기 같은 깃발
+
+## 코드 방향성 / 구상한 내용
+
+처음에 떠오른 직관은 그리디라서 풀긴했는데 답은 틀림
+
+그래서 그냥 당근 배분? 그거랑 비슷하게 푸니까 되긴함
+
+## 어려웠던 점
+없음
+
+```python
+import sys
+sys.stdin = open('portal.txt')
+
+def count_portal(p):
+
+    # 방을 방문했는지 확인
+    visit_room = [0]*len(p)
+
+    cnt = 0  # 포탈을 이동한 총 횟수
+    i = 0    # 현재 위치한 방의 인덱스 (0번 방에서 시작)
+
+    # 마지막 방에 방문할 때까지 반복
+    while visit_room[-1] == 0:
+        i += 1    # 현재 방 번호 1 증가
+        cnt += 1  # 이동 횟수 증가
+import sys
+
+sys.stdin = open('4613.txt')
+
+def make_russia_flag(arr, n, m):
+    """
+    N x M 행렬 러시아 국기 비슷한 형태로 만들 때
+    필요한 최소 색 변경 횟수를 구하는 함수
+    W와 B, B와 R의 경계를 완전탐색하는 방식으로 각 구간의 비용을 구함
+    """
+    # 변경에 드는 최솟값은 전체를 변경해야하는 비용으로 설정
+    min_cnt = n * m
+
+    # i: B 구간 시작(=W 구간 끝)
+    # j: R 구간 시작(=B 구간 끝)
+    # W: 0..i-1, B: i..j-1, R: j..n-1
+    for i in range(1, n - 1):
+        for j in range(i + 1, n):
+            w_part = arr[:i]
+            b_part = arr[i:j]
+            r_part = arr[j:]
+            
+            # 현재 주어진 W, B, R 상황에서의 비용
+            cnt = 0
+
+            # W 영역은 'W'가 아닌 칸을 칠해야 함
+            for row in w_part:
+                for s in row:
+                    if s != 'W':
+                        cnt += 1
+
+            # B 영역은 'B'가 아닌 칸을 칠해야 함
+            for row in b_part:
+                for s in row:
+                    if s != 'B':
+                        cnt += 1
+
+            # R 영역은 'R'가 아닌 칸을 칠해야 함
+            for row in r_part:
+                for s in row:
+                    if s != 'R':
+                        cnt += 1
+                        
+						# 최솟값 갱신
+            if cnt < min_cnt:
+                min_cnt = cnt
+
+    return min_cnt
+
+
+T = int(input())
+for tc in range(1, T+1):
+    N, M = map(int, input().split())
+    arr = [list(input()) for _ in range(N)]
+
+    ans = make_russia_flag(arr, N, M)
+    print(f'#{tc} {ans}')
+```
+
+## 행렬 찾기
+
+## 코드 방향성 / 구상한 내용
+
+빈 행렬을 만들고, 원래 행렬을 순회하며 화학 용기(부분 행렬)를 발견하면 크기를 재서 빈 행렬에 방문 표시를 하고 (중복 방문을 막기 위함) 부분 행렬의 크기와 개수를 반환하려고 함
+
+## 어려웠던 점
+코드도 좀 복잡하긴 했는데, 나름 구현하고자 한 방식대로 구현한 듯
+
+근데 마지막 출력 부분이 어려웠음…
+
+안찾아봤으면 1시간 더 써도 못했을듯?
+
+```python
+import sys
+sys.stdin = open('1258.txt')
+
+def find_submatrix(arr, n):
+    blank_arr = [[0] * n for _ in range(n)]
+    dr = [0, 1]
+    dc = [1, 0]
+    matrix_list = []
+    cnt = 0
+    for r in range(n):
+        for c in range(n):
+            s = arr[r][c]
+            cnt_r = 0
+            cnt_c = 0
+            if s != 0 and blank_arr[r][c] == 0:
+                cnt += 1
+                for d in range(2):
+                    for v in range(n):
+                        nr = r + dr[d]*v
+                        nc = c + dc[d]*v
+                        if nr < n and nc < n:
+                            if arr[nr][nc] == 0:
+                                if d == 0:
+                                    end_nc = nc
+                                else:
+                                    end_nr = nr
+                                break
+
+                            else:
+                                if d == 0:
+                                    cnt_c += 1
+                                else:
+                                    cnt_r += 1
+
+                for x in range(r, end_nr+1):
+                    for y in range(c, end_nc+1):
+                        blank_arr[x][y] = 1
+
+                matrix_list.append([cnt_r, cnt_c])
+
+    return cnt, matrix_list
+
+
+T = int(input())
+for tc in range(1, T+1):
+    N = int(input())
+    arr = [list(map(int, input().split())) for _ in range(N)]
+
+    cnt, lst = find_submatrix(arr, N)
+    result = sorted(lst, key=lambda x: (x[0]*x[1], x[0]))
+
+    ans = []
+    for sub in result:
+        for num in sub:
+            ans.append(num)
+
+    print(f'#{tc} {cnt}', *ans)
+```
+
+## Ladder2
+
+## 코드 방향성 / 구상한 내용
+
+#부호와 함께 테스트 케이스의 번호를 출력하고, 공백 문자 후 도착하게 되는 출발점의 x좌표를 출력한다.
+
+## 어려웠던 점
+
+```python
+import sys
+sys.stdin = open('1211.txt')
+
+def find_min_route(arr, n):
+
+    min_route = N * N
+    min_point = 0
+
+    for c in range(n):
+        if arr[0][c] == 1:
+            check = c
+            r = 0
+            cnt = 0
+            while r < n-1:
+                if c+1 < n and arr[r][c+1] == 1:
+                    while c+1 < n and arr[r][c+1] == 1:
+                        c += 1
+                        cnt += 1
+
+                elif c-1 >= 0 and arr[r][c-1] == 1:
+                    while c-1 >= 0 and arr[r][c-1] == 1:
+                        c -= 1
+                        cnt += 1
+                r += 1
+                cnt += 1
+
+
+            if min_route >= cnt:
+                min_route = cnt
+                min_point = check
+
+    return min_point
+
+
+T = 10
+N = 100
+for _ in range(1, T+1):
+    tc = int(input())
+    arr = [list(map(int, input().split())) for _ in range(N)]
+
+    ans = find_min_route(arr, N)
+    print(f'#{tc} {ans}')
+```
