@@ -100,3 +100,91 @@ for test_num in range(1,T+1):
                 answer =temp
     print(f'#{test_num} {answer}')
 ```
+
+```python
+from itertools import combinations
+
+
+T = int(input())
+for test_num in range(1,T+1):
+    carrot_num = int(input())
+    carrots = list(map(int,input().split()))
+    size_of_carrots = sorted(list(set(carrots)))
+    # 답 초기화
+    answer = -1
+    temp = float('inf')
+    for sep in combinations(range(len(size_of_carrots)-1),2): #순서대로 있는 당근 사이즈 조합에서 자를 기준선을 선정했습니다. (단 맨 마지막은 제외) 
+        # 여기서 순회하며 확인하는 튜플에는 다음의 정보가 담겨있습니다
+        # (스몰 사이즈 어디까지?,중간사이즈 어디까지?)
+        pass
+        small = list(filter(lambda x : x <= size_of_carrots[sep[0]],carrots))
+        medium = list(filter(lambda x : x > size_of_carrots[sep[0]] and x <= size_of_carrots[sep[1]],carrots))
+        large = list(filter(lambda x : x > size_of_carrots[sep[1]], carrots))
+        # print(small)
+        # print(medium)
+        # print(large)
+        # print(carrot_num//2)
+        if carrot_num//2 >= len(small) and carrot_num//2 >= len(medium) and carrot_num//2 >= len(large):
+            #갯수해당되면
+            #최솟값 계산
+            temp = min (temp,max(len(small),len(medium),len(large)) - min(len(small),len(medium),len(large)))
+            # print(temp)
+    if temp != float('inf'):
+        answer = temp
+    print(f'#{test_num} {answer}')
+```
+```python
+lights = []
+lights += input()
+# print(lights)
+def switch(pos):
+    if lights[pos] == 'Y':
+        lights[pos] = 'N'
+    else:
+        lights[pos] = 'Y'
+
+cnt = 0
+for i in range(len(lights)):    
+
+    if lights[i] == 'Y':
+        connected = 1
+        cnt+=1
+        while connected*(i+1) <= len(lights):
+            switch(connected*(i+1)-1)
+            connected+=1
+print(cnt)
+```
+```python
+w,h = map(int,input().split())
+x,y = map(int,input().split())
+time = int(input())
+dx = 1
+dy = 1
+# 시간 초과 코드
+# for i in range(time):
+#     if x == w:
+#         dx = -1
+#     if y == h :
+#         dy = -1
+#     if x == 0:
+#         dx = 1
+#     if y == 0:
+#         dy = 1
+#     x += dx
+#     y += dy
+
+
+
+
+# X 다 더하고 Y다 더하고
+# 각각 x,y로 나누고 방향 정하고 마지막에 출발해주면될듯/ 짝수면 증가중 홀수면 감소중인듯
+if ((x + time)//w) %2 == 0:
+    x = 0 + (x + time)%w
+else:
+     x = w - (x + time)%w
+if ((y + time)//h) %2 == 0:
+    y  = 0 + (y+ time)%h
+else:
+     y = h - (y + time)%h
+print(x, y)
+```
